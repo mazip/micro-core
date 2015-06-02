@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+ 
+
+	<context id="context1" targetRuntime="MyBatis3">
+		<plugin type="com.microframework.generator.plugin.PaginationPlugin" />
+		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
+			<property name="fileName" value="mybatis-Configuration.xml" />
+			<property name="targetPackage" value="com.microframework.generator.dto" />
+			<property name="targetProject" value="micro-core" />
+		</plugin>
+		<commentGenerator>
+			<property name="suppressAllComments" value="false" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/micro" userId="root"
+			password="root" />
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="true" />
+		</javaTypeResolver>
+		<javaModelGenerator targetPackage="com.microframework.generator.dto"
+			targetProject="micro-core" />
+		<sqlMapGenerator targetPackage="com.microframework.generator.mapper"
+			targetProject="micro-core" />
+		<javaClientGenerator targetPackage="com.microframework.generator.client"
+			targetProject="micro-core" type="XMLMAPPER" />
+
+        <table schema="" tableName="sessions"></table>
+	    <table schema="" tableName="sys_app"></table>
+	    <table schema="" tableName="sys_organization"></table>
+	    <table schema="" tableName="sys_resource"></table>
+	    <table schema="" tableName="sys_role"></table>
+	    <table schema="" tableName="sys_user"></table>
+	    <table schema="" tableName="sys_user_app_roles"></table>
+		
+	</context>
+</generatorConfiguration>
