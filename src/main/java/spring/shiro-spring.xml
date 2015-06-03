@@ -14,7 +14,7 @@
     </bean>
 
     <!-- 凭证匹配器 -->
-    <bean id="credentialsMatcher" class="com.github.zhangkaitao.shiro.chapter23.credentials.RetryLimitHashedCredentialsMatcher">
+    <bean id="credentialsMatcher" class="com.microframework.security.credentials.RetryLimitHashedCredentialsMatcher">
         <constructor-arg ref="cacheManager"/>
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="2"/>
@@ -56,13 +56,13 @@
     </bean>
 
     <!-- 会话DAO -->
-    <bean id="sessionDAO" class="com.github.zhangkaitao.shiro.chapter23.session.dao.MySqlSessionDAO">
+    <bean id="sessionDAO" class="com.microframework.security.dao.MySqlSessionDAO">
         <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
 
     <!-- 会话验证调度器 -->
-    <bean id="sessionValidationScheduler" class="com.github.zhangkaitao.shiro.chapter23.session.scheduler.MySqlSessionValidationScheduler">
+    <bean id="sessionValidationScheduler" class="com.microframework.security.session.MySqlSessionValidationScheduler">
         <property name="interval" value="1800000"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
