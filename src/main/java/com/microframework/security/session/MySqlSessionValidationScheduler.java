@@ -2,12 +2,17 @@ package com.microframework.security.session;
 
 
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionException;
 import org.apache.shiro.session.mgt.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
 
+import com.microframework.generator.client.SessionsMapper;
+import com.microframework.generator.dto.Sessions;
+import com.microframework.generator.dto.SessionsExample;
+import com.microframework.generator.dto.SessionsExample.Criteria;
 import com.microframework.util.SerializableUtils;
 
 import java.lang.reflect.Method;
@@ -17,11 +22,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-2-9
- * <p>Version: 1.0
- */
+
 public class MySqlSessionValidationScheduler implements SessionValidationScheduler, Runnable {
 
 
@@ -29,6 +30,9 @@ public class MySqlSessionValidationScheduler implements SessionValidationSchedul
     /** Private internal log instance. */
     private static final Logger log = LoggerFactory.getLogger(MySqlSessionValidationScheduler.class);
 
+    @Autowired
+    private SessionsMapper sessionsMapper;
+    
     ValidatingSessionManager sessionManager;
     private ScheduledExecutorService service;
     private long interval = DefaultSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL;
@@ -84,15 +88,22 @@ public class MySqlSessionValidationScheduler implements SessionValidationSchedul
         }
         long startTime = System.currentTimeMillis();
 
+        
         //分页获取会话并验证
-        String sql = "select session from sessions limit ?,?";
+        //String sql = "select session from sessions limit ?,?";
         int start = 0; //起始记录
         int size = 20; //每页大小
-        List<String> sessionList = jdbcTemplate.queryForList(sql, String.class, start, size);
-        while(sessionList.size() > 0) {
-            for(String sessionStr : sessionList) {
+        SessionsExample example=new SessionsExample();
+        example.setLimitStart(start);
+        example.setLimitEnd(size);
+		List<Sessions> sessions = sessionsMapper.selectByExample(example);
+		example.clear();
+    
+        //List<String> sessionList = jdbcTemplate.queryForList(sql, String.class, start, size);
+        while(sessions.size() > 0) {
+            for(Sessions sessionStr : sessions) {
                 try {
-                    Session session = SerializableUtils.deserialize(sessionStr);
+                    Session session = SerializableUtils.deserialize(sessionStr.getSession());
                     Method validateMethod = ReflectionUtils.findMethod(AbstractValidatingSessionManager.class, "validate", Session.class, SessionKey.class);
                     validateMethod.setAccessible(true);
                     ReflectionUtils.invokeMethod(validateMethod, sessionManager, session, new DefaultSessionKey(session.getId()));
@@ -101,7 +112,9 @@ public class MySqlSessionValidationScheduler implements SessionValidationSchedul
                 }
             }
             start = start + size;
-            sessionList = jdbcTemplate.queryForList(sql, String.class, start, size);
+            
+            sessions = sessionsMapper.selectByExample(example);
+            //sessionList = jdbcTemplate.queryForList(sql, String.class, start, size);
         }
 
         long stopTime = System.currentTimeMillis();

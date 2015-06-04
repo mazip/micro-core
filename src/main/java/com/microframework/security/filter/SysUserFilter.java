@@ -4,17 +4,12 @@ package com.microframework.security.filter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.microframework.constants.Constants;
-
+import com.microframework.service.UserService;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-2-15
- * <p>Version: 1.0
- */
+
 public class SysUserFilter extends PathMatchingFilter {
 
     @Autowired
