@@ -8,7 +8,7 @@
 		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
 			<property name="fileName" value="mybatis-Configuration.xml" />
 			<property name="targetPackage" value="com.microframework.generator.dto" />
-			<property name="targetProject" value="D:\workspace\micro-core\src\main\java" />
+			<property name="targetProject" value="F:\workspace\stsworkspace36\micro-core\src\main\java" />
 		</plugin>
 		<commentGenerator>
 			<property name="suppressAllComments" value="false" />
@@ -17,7 +17,7 @@
 
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://127.0.0.1:3306/micro" userId="root"
-			password="root" />
+			password="mazip" />
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="true" />
 		</javaTypeResolver>

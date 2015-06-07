@@ -3,13 +3,14 @@ package com.microframework.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.microframework.generator.client.SysUserMapper;
 import com.microframework.generator.dto.SysUser;
 import com.microframework.generator.dto.SysUserExample;
 import com.microframework.generator.dto.SysUserExample.Criteria;
 import com.microframework.service.UserService;
-
+@Service
 public class UserServiceImpl implements UserService{
 
 	@Autowired
