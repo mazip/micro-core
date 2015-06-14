@@ -6,12 +6,15 @@
   <display-name></display-name>
   
     <!-- Spring配置文件开始  -->
-    <context-param>
+     
+      <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:spring/servlet-context.xml
+            classpath:spring/servlet-context.xml,classpath:spring/shiro-spring.xml
         </param-value>
-    </context-param>
+      </context-param>
+     
+  
     
     <!-- Spring配置文件结束 -->
   
@@ -87,7 +90,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>*.do</url-pattern>
     </servlet-mapping>
   
   <listener>

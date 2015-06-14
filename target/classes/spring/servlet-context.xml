@@ -15,10 +15,11 @@
           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     
     <context:property-placeholder location="classpath:spring/resources.properties"/>
-
+    <mvc:annotation-driven /> 
     <context:component-scan base-package="com.microframework" />
     <!-- 开启AOP监听 只对当前配置文件有效 -->
     <aop:aspectj-autoproxy expose-proxy="true"/>
+    
     
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
@@ -101,6 +102,9 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-   <import resource="classpath:spring/shiro-spring.xml"/>
+    <!-- 
+    <import resource="classpath:spring/shiro-spring.xml"/>
+     -->
+   
 
 </beans>

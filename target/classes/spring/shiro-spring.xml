@@ -3,13 +3,14 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 缓存管理器 -->
-    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" >
         <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml"/>
     </bean>
 
@@ -112,8 +113,9 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
+                /index.do=anon
                 /remoteService = anon
-                /login = authc
+                /login.do = authc
                 /logout = logout
                 /authenticated = authc
                 /** = user,sysUser

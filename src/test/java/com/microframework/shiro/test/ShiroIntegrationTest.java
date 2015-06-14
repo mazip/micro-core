@@ -70,7 +70,7 @@ public class ShiroIntegrationTest extends AbstractShiroTest {
 		setSubject(subjectUnderTest);
 
         //username password rememberMe
-		String s = (String) this.mockMvc.perform(MockMvcRequestBuilders.post("/login","admin","admin",true)).andReturn().getRequest().getAttribute("shiroLoginFailure");
+		String s = (String) this.mockMvc.perform(MockMvcRequestBuilders.post("micro-core/login","admin","admin",true)).andReturn().getRequest().getAttribute("shiroLoginFailure");
 		System.out.println("登录结果:"+s);
 
 	}

@@ -10,8 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController {
-
-	@RequestMapping(value = "/login")
+	
+	
+	@RequestMapping(value = "/index.do")
+	public String login(){
+		
+		return "login";
+	}
+	
+	
+	@RequestMapping(value = "/login.do")
 	public String showLoginForm(HttpServletRequest req, Model model) {
 		String exceptionClassName = (String) req
 				.getAttribute("shiroLoginFailure");
