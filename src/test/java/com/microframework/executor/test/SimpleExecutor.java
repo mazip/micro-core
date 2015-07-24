@@ -24,6 +24,7 @@ public class SimpleExecutor {
 				         }).get();
 
 				System.out.println(outputs);
+				
 		
 	}
 	

@@ -20,6 +20,7 @@ public class ServerFormAuthenticationFilter extends FormAuthenticationFilter {
     	log.debug("ServerFormAuthenticationFilter coming");
     	String fallbackUrl = (String) getSubject(request, response)
                 .getSession().getAttribute("authc.fallbackUrl");
+    	log.info("fallbackUrl:"+fallbackUrl);
         if(StringUtils.isEmpty(fallbackUrl)) {
             fallbackUrl = getSuccessUrl();
         }

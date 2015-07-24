@@ -128,4 +128,19 @@ public class SysUserAppRoles {
     public void setRoleIds(String roleIds) {
         this.roleIds = roleIds;
     }
+    
+    
+    public long[]  getRoleIdArray(){
+    	
+    	if(this.roleIds==null){
+    		
+    		return new long[0];
+    	}else{
+    		
+    		
+    		
+    	}
+    	
+    }
+    
 }
