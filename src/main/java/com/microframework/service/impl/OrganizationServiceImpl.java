@@ -1,54 +1,51 @@
-package com.github.zhangkaitao.shiro.chapter23.service;
+package com.microframework.service.impl;
 
-import com.github.zhangkaitao.shiro.chapter23.dao.OrganizationDao;
-import com.github.zhangkaitao.shiro.chapter23.entity.Organization;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.microframework.generator.dto.SysOrganization;
+import com.microframework.service.OrganizationService;
+
 import java.util.List;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-2-14
- * <p>Version: 1.0
- */
+
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
-    @Autowired
-    private OrganizationDao organizationDao;
 
-    @Override
-    public Organization createOrganization(Organization organization) {
-        return organizationDao.createOrganization(organization);
-    }
+	public SysOrganization createOrganization(SysOrganization organization) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public Organization updateOrganization(Organization organization) {
-        return organizationDao.updateOrganization(organization);
-    }
+	public SysOrganization updateOrganization(SysOrganization organization) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public void deleteOrganization(Long organizationId) {
-        organizationDao.deleteOrganization(organizationId);
-    }
+	public void deleteOrganization(Long organizationId) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public Organization findOne(Long organizationId) {
-        return organizationDao.findOne(organizationId);
-    }
+	public SysOrganization findOne(Long organizationId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<Organization> findAll() {
-        return organizationDao.findAll();
-    }
+	public List<SysOrganization> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<Organization> findAllWithExclude(Organization excludeOraganization) {
-        return organizationDao.findAllWithExclude(excludeOraganization);
-    }
+	public Object findAllWithExclude(SysOrganization excludeOraganization) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public void move(Organization source, Organization target) {
-        organizationDao.move(source, target);
-    }
+	public void move(SysOrganization source, SysOrganization target) {
+		// TODO Auto-generated method stub
+		
+	}
+    
 }

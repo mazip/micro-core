@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+  <!-- 
+		    authentication-success-handler-ref="authenticationDispatcher"
+		     -->
+    <http pattern="/resources/**" security="none"/>
+	<http access-denied-page="/account/json/refuse"><!-- 当访问被拒绝时，会转到403.jsp -->
+		<http-basic />
+		<form-login 
+		    login-page="/account/json/refuse" 
+		    authentication-failure-url="/WEB-INF/views/fail.jsp"
+			default-target-url="/WEB-INF/views/ok.jsp" />
+		<!-- 增加一个filter，这点与Acegi是不一样的，不能修改默认的filter了，这个filter位于FILTER_SECURITY_INTERCEPTOR之前 -->
+		<custom-filter ref="myFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+		<custom-filter ref="loginFilter" before="FORM_LOGIN_FILTER" />
+		<logout 
+		    invalidate-session="true" 
+			logout-url="/account/logout" 
+			success-handler-ref="logoutSuccessHandler"
+			/>
+	</http>
+
+    <beans:bean id="logoutSuccessHandler" class="com.breakfast.achievements.handler.LogoutSuccessHandler"/>
+
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， 
+		我们的所有控制将在这三个类中实现，解释详见具体配置 -->
+	<beans:bean id="myFilterSecurityInterceptor"
+		 class="com.breakfast.achievements.security.MyFilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="myAccessDecisionManagerBean" />
+		<beans:property name="securityMetadataSource" ref="securityMetadataSource" />
+	</beans:bean>
+
+	<!-- 认证管理器，实现用户认证的入口， -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="myUserDetailService">
+			<password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
+
+
+
+	<!-- 登录验证器 -->
+	<beans:bean id="loginFilter"
+		class="com.breakfast.achievements.security.MyUsernamePasswordAuthenticationFilter">
+		<!-- 处理登录的action -->
+		<beans:property name="filterProcessesUrl" value="/account/login"></beans:property>
+		<!-- 验证成功后的处理 -->
+		<beans:property name="authenticationSuccessHandler"
+			ref="loginLogAuthenticationSuccessHandler"></beans:property>
+		<!-- 验证失败后的处理 -->
+		<beans:property name="authenticationFailureHandler"
+			ref="simpleUrlAuthenticationFailureHandler"></beans:property>
+		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+
+	</beans:bean>
+	<!-- 
+	<beans:bean id="loginLogAuthenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/account/json/tologin/ok"></beans:property>
+	</beans:bean>
+	 -->
+	 <beans:bean id="loginLogAuthenticationSuccessHandler"
+		class="com.breakfast.achievements.handler.LoginSuccessHandler">
+	</beans:bean>
+
+	<beans:bean id="simpleUrlAuthenticationFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<!-- 可以配置相应的跳转方式。属性forwardToDestination为true采用forward false为sendRedirect -->
+		<beans:property name="defaultFailureUrl" value="/account/json/tologin/fail"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="myUserDetailService"
+		class="com.breakfast.achievements.security.MyUserDetailService">
+	</beans:bean>
+
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+	<beans:bean id="myAccessDecisionManagerBean"
+		class="com.breakfast.achievements.security.MyAccessDecisionManager">
+	</beans:bean>
+
+	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
+	<beans:bean id="securityMetadataSource"
+		class="com.breakfast.achievements.security.MyInvocationSecurityMetadataSource">
+		<beans:constructor-arg >
+		    	<beans:ref bean="sqlSessionTemplate" />
+		</beans:constructor-arg>
+	</beans:bean>
+    <beans:bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg index="0" ref="sqlSessionFactory" /> 
+	</beans:bean>
+
+	
+</beans:beans>
