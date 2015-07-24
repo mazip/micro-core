@@ -86,7 +86,6 @@
         <version>2.0.7.RELEASE</version>
     </dependency>
 
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
@@ -107,6 +106,7 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.14</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -208,10 +208,9 @@
 					</dependency>
 				</dependencies>
 
-
-
 			</plugin>
-
+		
+	
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
